@@ -11,6 +11,7 @@ serversocket.bind((host, port))
 
 class client(Thread):
     def __init__(self, socket, address):
+        print('client established')
         Thread.__init__(self)
         self.sock = socket
         self.addr = address
