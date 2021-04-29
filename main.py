@@ -21,6 +21,6 @@ while 1:
     with open("/home/hduser/mw_trace50.csv") as file:
         for line in file:
             print("send line: " + line)
-            clientsocket.send(bytes(line, "utf-8"))
+            clientsocket.send(bytes(line + "\n", "utf-8"))
 
     clientsocket.close()
