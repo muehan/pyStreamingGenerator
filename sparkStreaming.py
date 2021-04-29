@@ -4,6 +4,13 @@ from pyspark.sql.types import StructType, StructField, TimestampType, StringType
 from pyspark.sql.functions import unix_timestamp, to_date, col, from_unixtime, udf, year, month, hour, minute, to_date
 from datetime import datetime
 
+
+spark = SparkSession \
+    .builder \
+    .appName("StreamingProzessor") \
+    .getOrCreate()
+
+
 # ---- Custom function ----
 def extractDate(t):
     dt = datetime.strptime(t, "%Y-%m-%d %H:%M:%S")
@@ -36,11 +43,6 @@ spark.udf.register("udf_calculateResponseTime", udf_calculateResponseTime)
 spark.udf.register("udf_getDateTime", udf_getDateTime)
 
 # ---- End Custom function ----
-
-spark = SparkSession \
-    .builder \
-    .appName("StreamingProzessor") \
-    .getOrCreate()
 
 lines = spark \
     .readStream \
