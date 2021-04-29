@@ -5,7 +5,7 @@ from pyspark.sql.functions import split
 
 spark = SparkSession \
     .builder \
-    .appName("SreamingProzessor") \
+    .appName("StreamingProzessor") \
     .getOrCreate()
 
 lines = spark \
