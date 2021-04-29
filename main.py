@@ -19,7 +19,7 @@ while 1:
     
     for j in range(50):
         print("send hello world \n")
-        clientsocket.send(bytes("Hallo World", "utf-8"))
+        clientsocket.send(bytes("Hallo World \n", "utf-8"))
         i += 1
         time.sleep(2)
     clientsocket.close()
