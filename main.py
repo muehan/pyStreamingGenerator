@@ -27,4 +27,9 @@ print ('server started and listening')
 while 1:
     clientsocket, address = serversocket.accept()
     client(clientsocket, address)
-    clientsocket.send("Hallo Welt", "utf-8")
+    
+    for j in range(10):
+        clientsocket.send(bytes("{Hallo World}\n".format(i), "utf-8"))
+        i += 1
+        time.sleep(1)
+    clientsocket.close()
