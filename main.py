@@ -21,5 +21,5 @@ while 1:
         print("send hello world \n")
         clientsocket.send(bytes("Hallo World \n", "utf-8"))
         i += 1
-        time.sleep(2)
+        time.sleep(15)
     clientsocket.close()
