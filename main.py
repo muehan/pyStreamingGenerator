@@ -31,9 +31,9 @@ while 1:
     clientsocket, address = serversocket.accept()
     client(clientsocket, address)
     
-    for j in range(10):
+    for j in range(50):
         print("send hello world")
         clientsocket.send(bytes("Hallo World", "utf-8"))
         i += 1
-        time.sleep(1)
+        time.sleep(2)
     clientsocket.close()
