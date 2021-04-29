@@ -5,8 +5,8 @@ import time
 from threading import *
 
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = '127.0.0.1'  # The server's hostname or IP address
-port = 9999         # The port used by the server
+host = '127.0.0.1'
+port = 9999
 
 i = 0
 
@@ -16,10 +16,10 @@ serversocket.listen(5)
 print ('server started and listening')
 while 1:
     clientsocket, address = serversocket.accept()
+    print ("read file")
     
-    for j in range(50):
-        print("send hello world \n")
-        clientsocket.send(bytes("Hallo World \n", "utf-8"))
-        i += 1
-        time.sleep(15)
+    with open("~/mw_trace50.csv") as f:
+        for i, line in enumerate(f):             
+            clientsocket.send(bytes("line", "utf-8"))
+
     clientsocket.close()
