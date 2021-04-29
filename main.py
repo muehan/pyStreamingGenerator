@@ -18,8 +18,8 @@ while 1:
     clientsocket, address = serversocket.accept()
     print ("read file")
     
-    with open("~/mw_trace50.csv") as f:
-        for i, line in enumerate(f):             
-            clientsocket.send(bytes("line", "utf-8"))
+    with open("/home/hduser/mw_trace50.csv") as file:
+        for line in file:             
+            clientsocket.send(bytes(line, "utf-8"))
 
     clientsocket.close()
