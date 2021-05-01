@@ -2,6 +2,7 @@
 
 import socket
 import time
+import datetime
 from threading import *
 
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -25,8 +26,16 @@ while 1:
             if first:
                 first = False
             else:
-                print("send line: " + line)
-                clientsocket.send(bytes(line + "\n", "utf-8"))
+                values = line.split()
+                milis = int(line[6])
+                milis = milis + 220898664000 # 7 years in miliseconds
+                line[6] = milis
+
+                newline = ','.join(str(e) for e in line)
+
+                print("send line: " + newline)
+
+                clientsocket.send(bytes(newline + "\n", "utf-8"))
                 time.sleep(8)
 
     clientsocket.close()
