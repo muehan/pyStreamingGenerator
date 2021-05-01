@@ -64,7 +64,8 @@ splited = line.select( \
     line_arr[5].alias("err_code"), \
     line_arr[6].alias("time"), \
     line_arr[7].alias("thread_id"), \
-    )
+    ) \
+    .dropna()
 # split_col = split(splited['line'], ',')
 # df = splited \
 #     .withColumn('code', split_col.getItem(0)) \
