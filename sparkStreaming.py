@@ -51,31 +51,33 @@ lines = spark \
     .option("port", 9999) \
     .schema(schema) \
     .load()
+lines.show()
 
 splited = split(lines[0], ",")
+splited.show()
 
-df_withTime = lines.withColumn("datetime", from_unixtime(col("time")[0:10]))
+# df_withTime = lines.withColumn("datetime", from_unixtime(col("time")[0:10]))
 
-df_withMinuteAndHour = df_withTime \
-    .withColumn("minute", minute("datetime")) \
-    .withColumn("hour", hour("datetime")) \
-    .withColumn("month", month("datetime")) \
-    .withColumn("date", udf_getDate("datetime")) \
-    .withColumn("year", year("datetime"))
+# df_withMinuteAndHour = df_withTime \
+#     .withColumn("minute", minute("datetime")) \
+#     .withColumn("hour", hour("datetime")) \
+#     .withColumn("month", month("datetime")) \
+#     .withColumn("date", udf_getDate("datetime")) \
+#     .withColumn("year", year("datetime"))
     
-df_filtered = df_withMinuteAndHour.filter(col("code") == "res_snd")
+# df_filtered = df_withMinuteAndHour.filter(col("code") == "res_snd")
 
-df_result = df_filtered.groupBy("date", "month", "year", "hour", "minute").count()
+# df_result = df_filtered.groupBy("date", "month", "year", "hour", "minute").count()
 
-df_result_calc = df_result \
-    .withColumn("responseTime", udf_calculateResponseTime("count")) \
-    .withColumn("datetime", udf_getDateTime("date", "hour", "minute"))
+# df_result_calc = df_result \
+#     .withColumn("responseTime", udf_calculateResponseTime("count")) \
+#     .withColumn("datetime", udf_getDateTime("date", "hour", "minute"))
     
-df_result_cleaned = df_result_calc \
-    .drop("date") \
-    .drop("hour") \
-    .drop("minute")
+# df_result_cleaned = df_result_calc \
+#     .drop("date") \
+#     .drop("hour") \
+#     .drop("minute")
 
-df_result_cleaned.sort("datetime").show(300,False)
+# df_result_cleaned.sort("datetime").show(300,False)
 
-df_result_cleaned.registerTempTable("streamTemp")
+# df_result_cleaned.registerTempTable("streamTemp")
