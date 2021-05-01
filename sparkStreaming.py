@@ -51,7 +51,7 @@ textSocket = spark \
     .option("port", 9999) \
     .load()
 
-splited = split(textSocket.value, ",")
+splited = textSocket.select(split(textSocket.value, ","))
 
 query = splited \
     .writeStream \
