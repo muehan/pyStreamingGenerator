@@ -29,6 +29,7 @@ while 1:
                 values = line.split()
                 milis = int(line[6])
                 milis = milis + 220898664000 # 7 years in miliseconds
+                print(line[6])
                 line[6] = milis
 
                 newline = ','.join(str(e) for e in line)
