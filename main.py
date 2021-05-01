@@ -27,16 +27,16 @@ while 1:
                 first = False
             else:
                 values = line.split(",")
-                if values[6].strip != '':
-                    milis = int(values[6])
-                    milis = milis + 220898664000 # 7 years in miliseconds
-                    values[6] = milis
+                milis = int(values[6])
+                milis = milis + 220898664000 # 7 years in miliseconds
+                values[6] = milis
 
-                    newline = ','.join(str(e) for e in values)
+                newline = ','.join(str(e) for e in values)
 
-                    print("send line: " + newline)
+                print("send line: " + newline)
 
-                    clientsocket.send(bytes(newline + "\n", "utf-8"))
-                    time.sleep(8)
+                clientsocket.send(bytes(newline + "\n", "utf-8"))
+                time.sleep(8)
+                    
 
     clientsocket.close()
