@@ -18,11 +18,11 @@ while 1:
     clientsocket, address = serversocket.accept()
     print ("read file")
     
-    first = true
+    first = True
     with open("/home/hduser/mw_trace50.csv") as file:
         for line in file:
             if first:
-                first = false
+                first = False
             else:
                 print("send line: " + line)
                 clientsocket.send(bytes(line + "\n", "utf-8"))
