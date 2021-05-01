@@ -56,7 +56,7 @@ splited = textSocket.select(split(textSocket.value, ","))
 query = splited \
     .writeStream \
     .format("console") \
-    .outputMode("complete") \
+    .outputMode("append") \
     .start() \
     .awaitTermination()
 
