@@ -51,13 +51,13 @@ textSocket = spark \
     .option("port", 9999) \
     .load()
 
-splited = textSocket.select(split(textSocket.value, ",").alias("line"))
-split_col = split(splited['line'], ',')
-df = splited \
-    .withColumn('code', split_col.getItem(0)) \
-    .withColumn('client_id', split_col.getItem(1)) \
-    .withColumn('loc_ts', split_col.getItem(2)) \
-    .withColumn('length', split_col.getItem(3))
+splited = textSocket.select(textSocket.value)
+# split_col = split(splited['line'], ',')
+# df = splited \
+#     .withColumn('code', split_col.getItem(0)) \
+#     .withColumn('client_id', split_col.getItem(1)) \
+#     .withColumn('loc_ts', split_col.getItem(2)) \
+#     .withColumn('length', split_col.getItem(3))
 
 
 query = splited \
