@@ -27,10 +27,10 @@ while 1:
                 first = False
             else:
                 values = line.split(",")
-                if line[6].strip != '':
+                if values[6].strip != '':
                     milis = int(line[6])
                     milis = milis + 220898664000 # 7 years in miliseconds
-                    line[6] = milis
+                    values[6] = milis
 
                     newline = ','.join(str(e) for e in line)
 
