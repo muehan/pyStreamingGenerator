@@ -49,7 +49,6 @@ lines = spark \
     .format("socket") \
     .option("host", "127.0.0.1") \
     .option("port", 9999) \
-    .schema(schema) \
     .load()
 lines.show()
 
