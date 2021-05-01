@@ -50,10 +50,15 @@ lines = spark \
     .option("host", "127.0.0.1") \
     .option("port", 9999) \
     .load()
-lines.show()
 
 splited = split(lines[0], ",")
-splited.show()
+
+query = splited \
+    .writeStream \
+    .format("console") \
+    .outputMode("complete") \
+    .start() \
+    .awaitTermination()
 
 # df_withTime = lines.withColumn("datetime", from_unixtime(col("time")[0:10]))
 
