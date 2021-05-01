@@ -44,14 +44,14 @@ spark.udf.register("udf_getDateTime", udf_getDateTime)
 
 # ---- End Custom function ----
 
-lines = spark \
+textSocket = spark \
     .readStream \
     .format("socket") \
     .option("host", "127.0.0.1") \
     .option("port", 9999) \
     .load()
 
-splited = split(lines[0], ",")
+splited = split(textSocket["value"], ",")
 
 query = splited \
     .writeStream \
