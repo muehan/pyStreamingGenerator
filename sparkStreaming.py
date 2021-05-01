@@ -52,7 +52,7 @@ textSocket = spark \
     .load()
 
 line = textSocket.select(textSocket.value)
-splited = line.select(split(line.value)[0].alias("code"))
+splited = line.select(split(line.value, ",")[0].alias("code"))
 # split_col = split(splited['line'], ',')
 # df = splited \
 #     .withColumn('code', split_col.getItem(0)) \
