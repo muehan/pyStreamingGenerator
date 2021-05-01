@@ -1,7 +1,7 @@
 
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, TimestampType, StringType, IntegerType, DoubleType, DateType
-from pyspark.sql.functions import unix_timestamp, to_date, col, from_unixtime, udf, year, month, hour, minute, to_date
+from pyspark.sql.functions import unix_timestamp, to_date, col, from_unixtime, udf, year, month, hour, minute, to_date, explode, split
 from datetime import datetime
 
 
@@ -51,6 +51,8 @@ lines = spark \
     .option("port", 9999) \
     .schema(schema) \
     .load()
+
+splited = split(lines[0], ",")
 
 df_withTime = lines.withColumn("datetime", from_unixtime(col("time")[0:10]))
 
