@@ -26,7 +26,7 @@ while 1:
             if first:
                 first = False
             else:
-                values = line.split()
+                values = line.split(",")
                 if line[6].strip != '':
                     milis = int(line[6])
                     milis = milis + 220898664000 # 7 years in miliseconds
