@@ -58,6 +58,12 @@ line_arr = split(line.value, ",")
 splited = line.select( \
     line_arr[0].alias("code"), \
     line_arr[1].alias("client_id"), \
+    line_arr[1].alias("loc_ts"), \
+    line_arr[1].alias("length"), \
+    line_arr[1].alias("op"), \
+    line_arr[1].alias("err_code"), \
+    line_arr[1].alias("time"), \
+    line_arr[1].alias("thread_id"), \
     )
 # split_col = split(splited['line'], ',')
 # df = splited \
