@@ -18,25 +18,23 @@ serversocket.listen(5)
 print ('server started and listening')
 while 1:
     clientsocket, address = serversocket.accept()
-    print ("read file")
+    print ("spark connected")
     
     first = True
     with open("/home/hduser/mw_trace50.csv") as file:
         for line in file:
-            if first:
+            if first: # dont send header
                 first = False
             else:
                 values = line.split(",")
                 milis = int(values[6])
-                milis = milis + 220898664000 # 7 years in miliseconds
+                milis = milis + 205785480000 # to 03.05.2021 12:00
                 values[6] = milis
 
                 newline = ','.join(str(e) for e in values)
 
-                print("send line: " + newline)
-
                 clientsocket.send(bytes(newline + "\n", "utf-8"))
-                time.sleep(8)
+                time.sleep(0.0002)
                     
 
     clientsocket.close()

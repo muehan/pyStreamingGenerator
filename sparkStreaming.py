@@ -1,7 +1,6 @@
-
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, TimestampType, StringType, IntegerType, DoubleType, DateType
-from pyspark.sql.functions import unix_timestamp, to_date, col, from_unixtime, udf, year, month, hour, minute, to_date, explode, split
+from pyspark.sql.functions import unix_timestamp, to_date, col, from_unixtime, udf, year, month, hour, minute, to_date, explode, split, window
 from datetime import datetime
 
 
@@ -66,43 +65,42 @@ splited = line.select( \
     line_arr[7].alias("thread_id"), \
     ) \
     .dropna()
-# split_col = split(splited['line'], ',')
-# df = splited \
-#     .withColumn('code', split_col.getItem(0)) \
-#     .withColumn('client_id', split_col.getItem(1)) \
-#     .withColumn('loc_ts', split_col.getItem(2)) \
-#     .withColumn('length', split_col.getItem(3))
-
-
-query = splited \
-    .writeStream \
-    .format("console") \
-    .outputMode("append") \
-    .start() \
-    .awaitTermination()
-
-# df_withTime = lines.withColumn("datetime", from_unixtime(col("time")[0:10]))
-
-# df_withMinuteAndHour = df_withTime \
-#     .withColumn("minute", minute("datetime")) \
-#     .withColumn("hour", hour("datetime")) \
-#     .withColumn("month", month("datetime")) \
-#     .withColumn("date", udf_getDate("datetime")) \
-#     .withColumn("year", year("datetime"))
     
-# df_filtered = df_withMinuteAndHour.filter(col("code") == "res_snd")
+df_withTime = splited.withColumn("datetime", from_unixtime(col("time")[0:10]))
 
-# df_result = df_filtered.groupBy("date", "month", "year", "hour", "minute").count()
-
-# df_result_calc = df_result \
-#     .withColumn("responseTime", udf_calculateResponseTime("count")) \
-#     .withColumn("datetime", udf_getDateTime("date", "hour", "minute"))
+df_withMinuteAndHour = df_withTime \
+    .withColumn("minute", minute("datetime")) \
+    .withColumn("hour", hour("datetime")) \
+    .withColumn("month", month("datetime")) \
+    .withColumn("date", udf_getDate("datetime")) \
+    .withColumn("year", year("datetime"))
     
-# df_result_cleaned = df_result_calc \
-#     .drop("date") \
-#     .drop("hour") \
-#     .drop("minute")
+df_filtered = df_withMinuteAndHour.filter(col("code") == "res_snd")
+
+df_result = df_filtered \
+    .groupBy("date", "month", "year", "hour", "minute", window("datetime", "1 minute")) \
+    .count()
+
+df_result_calc = df_result \
+    .withColumn("responseTime", udf_calculateResponseTime("count")) \
+    .withColumn("datetime", udf_getDateTime("date", "hour", "minute"))
+    
+df_result_cleaned = df_result_calc \
+    .drop("date") \
+    .drop("hour") \
+    .drop("minute")
 
 # df_result_cleaned.sort("datetime").show(300,False)
 
 # df_result_cleaned.registerTempTable("streamTemp")
+
+query = df_result_cleaned \
+    .writeStream \
+    .format("memory") \
+    .queryName("streamTemp6") \
+    .outputMode("complete") \
+    .trigger(processingTime='1 seconds') \
+    .start() \
+    .awaitTermination()
+    #.outputMode("append") \
+    # .awaitTermination()
